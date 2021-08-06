@@ -1,0 +1,96 @@
+ALGORITHM Problem_1
+VAR
+
+    tab1 : ARRAY_OF INTEGER[n1];
+    tab2 : ARRAY_OF INTEGER[n2];
+    n1,n2,i,j,k : INTEGER;
+    sum : INTEGER;
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    Arr : ARRAY_OF INTEGER[n1+n2];
+    egaux : BOOLEAN;
+
+BEGIN
+
+// remplissage du 1er tableau
+    REPEAT
+        Write("Donner la langeur du premier Tableau : ");
+        Read(n1);
+    UNTIL (n1>0)
+
+    FOR i FROM 0 TO n1-1 STEP i++  DO
+        Write("Donner l'element ",i," : ");
+        Read(tab1[i]);
+    END_FOR
+
+// remplissage du 2eme tableau
+    REPEAT
+        Write("Donner la langeur du deuxieme Tableau : ");
+        Read(n2);
+    UNTIL (n2>0)
+
+    FOR j FROM 0 TO n2-1 STEP j++  DO
+        Write("Donner l'element ",j," : ");
+        Read(tab2[j]);
+    END_FOR
+
+/*************************************** Solution 1 avec Array ***************************************/
+
+// initialisation du somme
+    sum=0;
+//Calcule de la somme
+
+    FOR i FROM 0 TO n1-1 STEP i++  DO
+
+        egaux = true;
+
+        FOR j FROM 0 TO n2-1 STEP j++  DO
+            IF (i=0) THEN
+                sum = sum + tab2[j]
+            END_IF
+
+            IF (tab1[i] <> tab2[j]) THEN
+                egaux = true;
+            ELSE
+                egaux = false;
+                break;
+            END_IF
+        END_FOR
+
+        IF (egaux = true) THEN
+                Sum = Sum + tab1[i]
+            ELSE
+                Sum = Sum - tab1[i]
+            END_IF
+    END_FOR
+
+    Write("la somme de tous les éléments distincts = ",sum);
+
+    /*************************************** Solution 3 avec Hash Table ***************************************/
+
+// initialisation du somme
+    sum=0;
+//Calcule de la somme
+
+    FOR i FROM 0 TO n1-1 STEP i++  DO
+        htab.insert(tab1[i],1)
+    END_FOR
+
+    FOR j FROM 0 TO n2-1 STEP j++  DO
+        if (htab.lookup(tab2[j]) = true )
+            htab.insert(tab1[j],2)
+        ELSE
+            htab.insert(tab1[j],1)
+        END_IF
+    END_FOR
+
+    Arr = get.Array (get.key(htab))
+
+    FOR k FROM 0 TO Arr.length-1 STEP k++  DO
+        if ( htab.get(Arr[k]) = 1 )
+            sum = sum + Arr[k];
+        END_IF
+    END_FOR
+
+    Write("la somme de tous les éléments distincts = ",sum);
+
+END
